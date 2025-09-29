@@ -1,48 +1,76 @@
+```css
 body {
-  font-family: 'Poppins', 'Arial Rounded MT Bold', sans-serif;
-  background: linear-gradient(135deg, #fdfcfb, #ddebf8);
-  background-image:
-    radial-gradient(circle, rgba(0,0,0,0.05) 2px, transparent 2px),
-    radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px);
-  background-size: 40px 40px, 20px 20px;
-  text-align: center;
   margin: 0;
-  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: repeating-linear-gradient(
+    45deg,
+    #fdfdfd,
+    #fdfdfd 20px,
+    #e8f5e9 20px,
+    #e8f5e9 40px
+  );
+  background-attachment: fixed;
 }
 
-.page { display: none; padding: 20px; }
-.page:not(.hidden) { display: block; }
+.hidden {
+  display: none;
+}
+
+.auth-container, .app-container {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 300px;
+  text-align: center;
+}
+
+h1 {
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #2e7d32;
+}
+
+h2 {
+  font-weight: 500;
+  margin: 10px 0;
+  color: #388e3c;
+}
 
 input {
   display: block;
   margin: 10px auto;
-  padding: 10px;
-  width: 200px;
-  border-radius: 8px;
-  border: 1px solid #888;
+  padding: 8px;
+  width: 90%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: 'Poppins', sans-serif;
 }
 
 button {
-  margin: 10px;
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 10px 15px;
+  margin: 8px;
+  background: #66bb6a;
   border: none;
-  background-color: #4CAF50;
+  border-radius: 6px;
   color: white;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
-button:hover { opacity: 0.9; }
-
-.hidden { display: none; }
-
-/* Quiz Buttons Feedback */
-button.correct {
-  background-color: green !important;
-  color: white;
+button:hover {
+  background: #43a047;
 }
-button.wrong {
-  background-color: red !important;
-  color: white;
+
+.subject-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
 }
+```
