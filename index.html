@@ -1,86 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>IECEP BATA</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>IECEP BATA</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="app">
   <!-- Login/Register -->
-  <div id="authPage">
-    <h1>IECEP BATA</h1>
-    <div id="loginForm">
-      <h2>Login</h2>
-      <input type="text" id="loginUsername" placeholder="Username">
-      <div class="password-field">
-        <input type="password" id="loginPassword" placeholder="Password">
-        <button type="button" onclick="togglePassword()">👁️</button>
-      </div>
+  <div id="loginPage" class="page">
+    <h2>Welcome to IECEP BATA</h2>
+    <form id="loginForm">
+      <input type="text" id="loginUser" placeholder="Username" required>
+      <input type="password" id="loginPass" placeholder="Password" required>
       <label><input type="checkbox" id="rememberMe"> Remember Me</label>
-      <button onclick="login()">Login</button>
-      <p class="switch">Don't have an account yet? <span onclick="showRegister()">Register</span></p>
-    </div>
-
-    <div id="registerForm" class="hidden">
-      <h2>Register</h2>
-      <input type="text" id="regFullName" placeholder="Full Name">
-      <input type="text" id="regUsername" placeholder="Username">
-      <input type="password" id="regPassword" placeholder="Password">
-      <button onclick="register()">Register</button>
-      <p class="switch">Already have an account? <span onclick="showLogin()">Login</span></p>
-    </div>
+      <button type="submit">Login</button>
+      <p>Don't have an account? <a href="#" id="toRegister">Register</a></p>
+    </form>
+    <form id="registerForm" class="hidden">
+      <input type="text" id="regFull" placeholder="Full Name" required>
+      <input type="text" id="regUser" placeholder="Username" required>
+      <input type="password" id="regPass" placeholder="Password" required>
+      <button type="submit">Register</button>
+      <p>Already have an account? <a href="#" id="toLogin">Login</a></p>
+    </form>
   </div>
 
   <!-- Home Page -->
-  <div id="homePage" class="hidden">
-    <h1>Welcome, <span id="studentName"></span>!</h1>
-    <p class="tagline">Your offline Filipino learning companion — lessons, quizzes, folklore, and fun!</p>
-    <div class="subjects">
-      <button class="subject-btn math" onclick="openSubject('Math')">Math</button>
-      <button class="subject-btn science" onclick="openSubject('Science')">Science</button>
-    </div>
-    <button onclick="openProfile()">📊 My Profile</button>
+  <div id="homePage" class="page hidden">
+    <h2>Subjects</h2>
+    <button onclick="openSubject('Math')">Math</button>
+    <button onclick="openSubject('Science')">Science</button>
+    <button onclick="openProfile()">Profile</button>
     <button onclick="logout()">Logout</button>
   </div>
 
-  <!-- Lesson/Quiz Page -->
-  <div id="lessonPage" class="hidden">
+  <!-- Lessons -->
+  <div id="lessonPage" class="page hidden">
     <h2 id="lessonTitle"></h2>
-    <div id="lessonContent"></div>
-    <div id="quizContainer"></div>
-    <div id="folkloreContainer" class="hidden">
-      <h3>Folklore Story:</h3>
-      <p id="folkloreText"></p>
-    </div>
+    <div id="lessonsList"></div>
     <button onclick="goHome()">Back</button>
   </div>
 
-  <!-- Profile Page -->
-  <div id="profilePage" class="hidden">
-    <h2>Profile Dashboard</h2>
-    <p><strong>Name:</strong> <span id="profileName"></span></p>
-    <p><strong>Username:</strong> <span id="profileUsername"></span></p>
-    <p><strong>Lessons Completed:</strong> <span id="profileLessons"></span></p>
-    <p><strong>Average Score:</strong> <span id="profileScore"></span></p>
-    <p><strong>Certificates:</strong></p>
-    <ul id="certificatesList"></ul>
-    <p><strong>Badges Earned:</strong></p>
-    <ul id="badgesList"></ul>
+  <!-- Quiz -->
+  <div id="quizPage" class="page hidden">
+    <h2 id="quizTitle"></h2>
+    <div id="quizContainer"></div>
+  </div>
+
+  <!-- Folklore -->
+  <div id="folklorePage" class="page hidden">
+    <h2>Folklore Story</h2>
+    <p id="folkloreText"></p>
     <button onclick="goHome()">Back to Home</button>
   </div>
 
-  <!-- Certificate Page -->
-  <div id="certificatePage" class="hidden">
+  <!-- Certificate -->
+  <div id="certificatePage" class="page hidden">
     <h2>Certificate of Completion</h2>
-    <p>This certificate is proudly awarded to</p>
+    <p>This certificate is proudly presented to</p>
     <h3 id="certName"></h3>
-    <p>For successfully completing the quiz in</p>
-    <h4 id="certLesson"></h4>
-    <button onclick="downloadCertificate()">Download Certificate</button>
+    <p>for completing the lesson:</p>
+    <h3 id="certLesson"></h3>
     <button onclick="goHome()">Back to Home</button>
   </div>
-</div>
-<script src="script.js"></script>
+
+  <!-- Profile -->
+  <div id="profilePage" class="page hidden">
+    <h2>Profile</h2>
+    <p><b>Name:</b> <span id="profileName"></span></p>
+    <p><b>Username:</b> <span id="profileUsername"></span></p>
+    <p><b>Lessons Completed:</b> <span id="profileLessons"></span></p>
+    <p><b>Average Score:</b> <span id="profileScore"></span></p>
+    <h3>Certificates</h3>
+    <ul id="certificatesList"></ul>
+    <h3>Badges</h3>
+    <ul id="badgesList"></ul>
+    <button onclick="goHome()">Back</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
