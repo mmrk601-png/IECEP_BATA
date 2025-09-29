@@ -125,13 +125,31 @@ function startQuiz(subject,lesson){
     questionEl.innerHTML=`<h4>Q${current+1}: ${quizSet[current].q}</h4>`;
     choicesEl.innerHTML="";
     quizSet[current].choices.forEach(choice=>{
-      const btn=document.createElement("button");
-      btn.innerText=choice;
-      btn.onclick=()=>{
-        if(choice===quizSet[current].a){score++; alert("Correct!");}else{alert("Wrong!");}
-      };
-      choicesEl.appendChild(btn);
-    });
+  const btn=document.createElement("button");
+  btn.innerText = choice;
+  btn.onclick = () => {
+    if(choice === quizSet[current].a){
+      btn.classList.add("correct");
+      score++;
+    } else {
+      btn.classList.add("wrong");
+    }
+
+    // disable all buttons para di makapindot ulit
+    Array.from(choicesEl.children).forEach(b => b.disabled = true);
+
+    // auto-next after 1.5 seconds
+    setTimeout(() => {
+      current++;
+      if(current < quizSet.length){
+        showQuestion();
+      } else {
+        finishQuiz();
+      }
+    }, 1500);
+  };
+  choicesEl.appendChild(btn);
+});
   }
   showQuestion();
 
@@ -171,3 +189,4 @@ function openProfile(){
   const certList=document.getElementById("certificatesList"); certList.innerHTML=""; u.certificates.forEach(c=>{let li=document.createElement("li");li.innerText=c;certList.appendChild(li);});
   const badgesList=document.getElementById("badgesList"); badgesList.innerHTML=""; u.badges.forEach(b=>{let li=document.createElement("li");li.innerText=b;badgesList.appendChild(li);});
 }
+
