@@ -105,6 +105,7 @@ function generateScienceQuestions(topic,count){
 // Start Quiz
 function startQuiz(subject,lesson){
   const quizContainer=document.getElementById("quizContainer");
+  quizContainer.innerHTML = "";
   const folkloreContainer=document.getElementById("folkloreContainer");
   folkloreContainer.classList.add("hidden");
   const pool=generateQuestionPool(subject,lesson);
@@ -185,6 +186,7 @@ function openProfile(){
   const certList=document.getElementById("certificatesList"); certList.innerHTML=""; u.certificates.forEach(c=>{let li=document.createElement("li");li.innerText=c;certList.appendChild(li);});
   const badgesList=document.getElementById("badgesList"); badgesList.innerHTML=""; u.badges.forEach(b=>{let li=document.createElement("li");li.innerText=b;badgesList.appendChild(li);});
 }
+
 
 
 
