@@ -39,6 +39,17 @@ button {
   border-radius: 12px;
   border: none;
   cursor: pointer;
+  
+}
+
+button.correct {
+  background-color: green !important;
+  color: white;
+}
+
+button.wrong {
+  background-color: red !important;
+  color: white;
 }
 
 .switch span { color: blue; text-decoration: underline; cursor: pointer; }
@@ -64,3 +75,4 @@ button {
 }
 
 #lessonContent { margin: 15px 0; text-align: left; max-width: 600px; margin-left:auto; margin-right:auto;}
+
