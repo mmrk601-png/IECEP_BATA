@@ -149,28 +149,39 @@ function startQuiz(subject,lesson){
 });
   }
   showQuestion();
-
-  function finishQuiz(){
-    alert(`You scored ${score} out of ${quizSet.length}`);
-    quizContainer.innerHTML="";
-    folkloreContainer.classList.remove("hidden");
-    document.getElementById("folkloreText").innerText=`Congratulations! Here's a short story related to ${lesson}.`;
-    users[currentUser].lessonsCompleted++;
-    users[currentUser].scores.push(score);
-    users[currentUser].certificates.push(lesson);
-    localStorage.setItem("users",JSON.stringify(users));
-    showCertificate(currentUser,lesson);
+function finishQuiz(){
+  alert(`You scored ${score} out of ${quizSet.length}`);
+  
+  // Add completion count for this lesson
+  if(!users[currentUser].completions[lesson]){
+    users[currentUser].completions[lesson] = 0;
   }
+  users[currentUser].completions[lesson]++;
+
+  // Award badge based on completions
+  let badge = "";
+  switch(users[currentUser].completions[lesson]){
+    case 1: badge = "Bronze Star"; break;
+    case 2: badge = "Silver Star"; break;
+    case 3: badge = "Gold Star"; break;
+    default: badge = "Diamond Badge";
+  }
+  users[currentUser].badges.push(`${lesson}: ${badge}`);
+
+  // Show certificate
+  showCertificate(currentUser, lesson, badge);
+ }
 }
 
 // Shuffle helper
 function shuffle(array){for(let i=array.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[array[i],array[j]]=[array[j],array[i]];} return array;}
 
 // Certificate
-function showCertificate(user,lesson){
+function showCertificate(user, lesson, badge){
   document.getElementById("certificatePage").classList.remove("hidden");
-  document.getElementById("certName").innerText=users[user].fullName;
-  document.getElementById("certLesson").innerText=lesson;
+  document.getElementById("certName").innerText = users[user].fullName;
+  document.getElementById("certLesson").innerText = lesson;
+  document.getElementById("certBadge").innerText = badge;
 }
 
 // Profile
@@ -186,6 +197,7 @@ function openProfile(){
   const certList=document.getElementById("certificatesList"); certList.innerHTML=""; u.certificates.forEach(c=>{let li=document.createElement("li");li.innerText=c;certList.appendChild(li);});
   const badgesList=document.getElementById("badgesList"); badgesList.innerHTML=""; u.badges.forEach(b=>{let li=document.createElement("li");li.innerText=b;badgesList.appendChild(li);});
 }
+
 
 
 
