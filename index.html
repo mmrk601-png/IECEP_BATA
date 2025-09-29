@@ -1,83 +1,42 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>IECEP BATA</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IECEP BATA App</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Login/Register -->
-  <div id="loginPage" class="page">
-    <h2>Welcome to IECEP BATA</h2>
-    <form id="loginForm">
-      <input type="text" id="loginUser" placeholder="Username" required>
-      <input type="password" id="loginPass" placeholder="Password" required>
-      <label><input type="checkbox" id="rememberMe"> Remember Me</label>
-      <button type="submit">Login</button>
-      <p>Don't have an account? <a href="#" id="toRegister">Register</a></p>
-    </form>
-    <form id="registerForm" class="hidden">
-      <input type="text" id="regFull" placeholder="Full Name" required>
-      <input type="text" id="regUser" placeholder="Username" required>
-      <input type="password" id="regPass" placeholder="Password" required>
-      <button type="submit">Register</button>
-      <p>Already have an account? <a href="#" id="toLogin">Login</a></p>
-    </form>
+  <div class="auth-container" id="authContainer">
+    <h1>IECEP BATA</h1>
+    <div id="registerForm">
+      <h2>Register</h2>
+      <input type="text" id="regUsername" placeholder="Username" />
+      <input type="password" id="regPassword" placeholder="Password" />
+      <button onclick="register()">Register</button>
+    </div>
+    <div id="loginForm">
+      <h2>Login</h2>
+      <input type="text" id="loginUsername" placeholder="Username" />
+      <input type="password" id="loginPassword" placeholder="Password" />
+      <button onclick="login()">Login</button>
+    </div>
   </div>
 
-  <!-- Home Page -->
-  <div id="homePage" class="page hidden">
-    <h2>Subjects</h2>
-    <button onclick="openSubject('Math')">Math</button>
-    <button onclick="openSubject('Science')">Science</button>
-    <button onclick="openProfile()">Profile</button>
+  <div class="app-container hidden" id="appContainer">
+    <h1>Welcome, <span id="userDisplay"></span>!</h1>
     <button onclick="logout()">Logout</button>
-  </div>
-
-  <!-- Lessons -->
-  <div id="lessonPage" class="page hidden">
-    <h2 id="lessonTitle"></h2>
-    <div id="lessonsList"></div>
-    <button onclick="goHome()">Back</button>
-  </div>
-
-  <!-- Quiz -->
-  <div id="quizPage" class="page hidden">
-    <h2 id="quizTitle"></h2>
-    <div id="quizContainer"></div>
-  </div>
-
-  <!-- Folklore -->
-  <div id="folklorePage" class="page hidden">
-    <h2>Folklore Story</h2>
-    <p id="folkloreText"></p>
-    <button onclick="goHome()">Back to Home</button>
-  </div>
-
-  <!-- Certificate -->
-  <div id="certificatePage" class="page hidden">
-    <h2>Certificate of Completion</h2>
-    <p>This certificate is proudly presented to</p>
-    <h3 id="certName"></h3>
-    <p>for completing the lesson:</p>
-    <h3 id="certLesson"></h3>
-    <button onclick="goHome()">Back to Home</button>
-  </div>
-
-  <!-- Profile -->
-  <div id="profilePage" class="page hidden">
-    <h2>Profile</h2>
-    <p><b>Name:</b> <span id="profileName"></span></p>
-    <p><b>Username:</b> <span id="profileUsername"></span></p>
-    <p><b>Lessons Completed:</b> <span id="profileLessons"></span></p>
-    <p><b>Average Score:</b> <span id="profileScore"></span></p>
-    <h3>Certificates</h3>
-    <ul id="certificatesList"></ul>
-    <h3>Badges</h3>
-    <ul id="badgesList"></ul>
-    <button onclick="goHome()">Back</button>
+    <p>Choose a subject to start learning:</p>
+    <div class="subject-buttons">
+      <button onclick="startSubject('Math')">Math</button>
+      <button onclick="startSubject('Science')">Science</button>
+    </div>
+    <div id="quizContainer" class="hidden"></div>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
+```
