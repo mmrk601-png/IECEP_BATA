@@ -135,7 +135,7 @@ function startQuiz(subject,lesson){
       btn.classList.add("wrong");
     }
 
-    // disable all buttons para di makapindot ulit
+    //
     Array.from(choicesEl.children).forEach(b => b.disabled = true);
 
     // auto-next after 1 seconds
@@ -189,5 +189,6 @@ function openProfile(){
   const certList=document.getElementById("certificatesList"); certList.innerHTML=""; u.certificates.forEach(c=>{let li=document.createElement("li");li.innerText=c;certList.appendChild(li);});
   const badgesList=document.getElementById("badgesList"); badgesList.innerHTML=""; u.badges.forEach(b=>{let li=document.createElement("li");li.innerText=b;badgesList.appendChild(li);});
 }
+
 
 
