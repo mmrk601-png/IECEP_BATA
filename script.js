@@ -142,7 +142,7 @@ function startQuiz(subject,lesson){
       } else {
         finishQuiz();
       }
-    }, 1500);
+    }, 1000);
   };
   choicesEl.appendChild(btn);
 });
@@ -185,6 +185,7 @@ function openProfile(){
   const certList=document.getElementById("certificatesList"); certList.innerHTML=""; u.certificates.forEach(c=>{let li=document.createElement("li");li.innerText=c;certList.appendChild(li);});
   const badgesList=document.getElementById("badgesList"); badgesList.innerHTML=""; u.badges.forEach(b=>{let li=document.createElement("li");li.innerText=b;badgesList.appendChild(li);});
 }
+
 
 
 
