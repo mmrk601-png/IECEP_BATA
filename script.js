@@ -116,7 +116,6 @@ function startQuiz(subject,lesson){
   const choicesEl=document.createElement("div");
   quizContainer.appendChild(questionEl);
   quizContainer.appendChild(choicesEl);
-  quizContainer.appendChild(nextBtn);
 
   function showQuestion(){
     questionEl.innerHTML=`<h4>Q${current+1}: ${quizSet[current].q}</h4>`;
@@ -186,6 +185,7 @@ function openProfile(){
   const certList=document.getElementById("certificatesList"); certList.innerHTML=""; u.certificates.forEach(c=>{let li=document.createElement("li");li.innerText=c;certList.appendChild(li);});
   const badgesList=document.getElementById("badgesList"); badgesList.innerHTML=""; u.badges.forEach(b=>{let li=document.createElement("li");li.innerText=b;badgesList.appendChild(li);});
 }
+
 
 
 
