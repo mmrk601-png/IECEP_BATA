@@ -1,16 +1,15 @@
 let currentUser = null;
 let users = JSON.parse(localStorage.getItem("users")) || {};
 
+// Registration/Login
 function showRegister(){ 
   document.getElementById("loginForm").classList.add("hidden"); 
   document.getElementById("registerForm").classList.remove("hidden"); 
 }
-
 function showLogin(){ 
   document.getElementById("registerForm").classList.add("hidden"); 
   document.getElementById("loginForm").classList.remove("hidden"); 
 }
-
 function togglePassword(){ 
   const pwd=document.getElementById("loginPassword"); 
   pwd.type=pwd.type==='password'?'text':'password'; 
@@ -31,7 +30,7 @@ function register(){
     scores: [],
     certificates: [],
     badges: [],
-    completions: {}   // tracking ng bawat lesson
+    completions: {}
   };
   localStorage.setItem("users", JSON.stringify(users));
   alert("Registration success!"); 
@@ -65,6 +64,7 @@ function logout(){
   document.getElementById("rememberMe").checked=false;
 }
 
+// Subjects
 function openSubject(subject){
   document.getElementById("homePage").classList.add("hidden");
   document.getElementById("lessonPage").classList.remove("hidden");
@@ -96,7 +96,7 @@ function showLessonContent(subject){
   });
 }
 
-// Generate question pools
+// Question Pools
 function generateQuestionPool(subject,lesson){
   const questions=[];
   if(subject==="Math"){
@@ -111,7 +111,7 @@ function generateQuestionPool(subject,lesson){
       questions.push({q,a:ans,choices:shuffle([ans,ans+1,ans-1,ans+2])});
     }
   } else if(subject==="Science"){
-    const scienceQuestions = generateScienceQuestions(lesson,50);
+    const scienceQuestions = generateScienceQuestions(lesson,20); // added more questions
     questions.push(...scienceQuestions);
   }
   return questions;
@@ -126,53 +126,40 @@ function generateScienceQuestions(topic,count){
     if(topic==="Digestive"){q=`Where does food get digested first?`; a="Stomach";}
     if(topic==="Nervous"){q=`Which organ controls our body and senses?`; a="Brain";}
     if(topic==="Skeletal/Muscular"){q=`What gives our body structure and allows movement?`; a="Bones and Muscles";}
-    qs.push({q,a,choices:shuffle([a,"Liver","Heart","Lungs","Stomach"])});
+    qs.push({q,a,choices:shuffle([a,"Liver","Heart","Lungs","Stomach"])}); 
   }
   return qs;
 }
 
-// Start Quiz
+// Quiz
 function startQuiz(subject,lesson){
   const quizContainer=document.getElementById("quizContainer");
   quizContainer.innerHTML = "";
-  const folkloreContainer=document.getElementById("folkloreContainer");
-  folkloreContainer.classList.add("hidden");
+  document.getElementById("folkloreContainer").classList.add("hidden");
+
   const pool=generateQuestionPool(subject,lesson);
-  const quizSet=shuffle(pool).slice(0,Math.floor(Math.random()*6)+5); //5-10 questions
+  const quizSet=shuffle(pool).slice(0,Math.floor(Math.random()*6)+5); // 5-10 questions
   let current=0, score=0;
 
-  quizContainer.innerHTML="";
-  const questionEl=document.createElement("div");
-  const choicesEl=document.createElement("div");
-  quizContainer.appendChild(questionEl);
-  quizContainer.appendChild(choicesEl);
-
   function showQuestion(){
-    questionEl.innerHTML=`<h4>Q${current+1}: ${quizSet[current].q}</h4>`;
-    choicesEl.innerHTML="";
+    quizContainer.innerHTML=`<h4>Q${current+1}: ${quizSet[current].q}</h4>`;
+    const choicesEl=document.createElement("div");
+    quizContainer.appendChild(choicesEl);
+
     quizSet[current].choices.forEach(choice=>{
       const btn=document.createElement("button");
-      btn.innerText = choice;
-      btn.onclick = () => {
-        if(choice === quizSet[current].a){
-          btn.classList.add("correct");
-          score++;
-        } else {
-          btn.classList.add("wrong");
-        }
+      btn.innerText=choice;
+      btn.onclick=()=>{
+        if(choice===quizSet[current].a){btn.classList.add("correct"); score++;}
+        else{btn.classList.add("wrong");}
 
-        // disable other buttons
-        Array.from(choicesEl.children).forEach(b => b.disabled = true);
+        Array.from(choicesEl.children).forEach(b=>b.disabled=true);
 
-        // auto-next after 0.7s
-        setTimeout(() => {
+        setTimeout(()=>{
           current++;
-          if(current < quizSet.length){
-            showQuestion();
-          } else {
-            finishQuiz();
-          }
-        }, 700);
+          if(current<quizSet.length){showQuestion();}
+          else{finishQuiz();}
+        },700);
       };
       choicesEl.appendChild(btn);
     });
@@ -181,34 +168,33 @@ function startQuiz(subject,lesson){
 
   function finishQuiz(){
     alert(`You scored ${score} out of ${quizSet.length}`);
-    
+
+    const percent = (score/quizSet.length)*100;
+
     // Track completions
-    if(!users[currentUser].completions[lesson]){
-      users[currentUser].completions[lesson] = 0;
-    }
+    if(!users[currentUser].completions[lesson]) users[currentUser].completions[lesson]=0;
     users[currentUser].completions[lesson]++;
     users[currentUser].lessonsCompleted++;
     users[currentUser].scores.push(score);
 
-    // Award badge
-    let badge = "";
-    switch(users[currentUser].completions[lesson]){
-      case 1: badge = "Bronze Star"; break;
-      case 2: badge = "Silver Star"; break;
-      case 3: badge = "Gold Star"; break;
-      default: badge = "Diamond Badge";
+    // Badge upgrade only if ≥65%
+    if(percent>=65){
+      let badge = getBadgeLevel(users[currentUser].completions[lesson]);
+      users[currentUser].badges.push(`${lesson}: ${badge}`);
+      users[currentUser].certificates.push(`${lesson} - ${badge}`);
+      showCertificate(currentUser, lesson, badge);
     }
-    users[currentUser].badges.push(`${lesson}: ${badge}`);
 
-    // Save certificate record
-    users[currentUser].certificates.push(`${lesson} - ${badge}`);
-
-    // Save everything
     localStorage.setItem("users", JSON.stringify(users));
-
-    // Show certificate immediately
-    showCertificate(currentUser, lesson, badge);
   }
+}
+
+// Badge helper
+function getBadgeLevel(attempt){
+  if(attempt===1) return "Bronze Star";
+  if(attempt===2) return "Silver Star";
+  if(attempt===3) return "Gold Star";
+  return "Diamond Badge";
 }
 
 // Shuffle helper
@@ -223,9 +209,9 @@ function shuffle(array){
 // Certificate
 function showCertificate(user, lesson, badge){
   document.getElementById("certificatePage").classList.remove("hidden");
-  document.getElementById("certName").innerText = users[user].fullName;
-  document.getElementById("certLesson").innerText = lesson;
-  document.getElementById("certBadge").innerText = badge;
+  document.getElementById("certName").innerText=users[user].fullName;
+  document.getElementById("certLesson").innerText=lesson;
+  document.getElementById("certBadge").innerText=badge;
 }
 
 // Profile
@@ -239,7 +225,6 @@ function openProfile(){
   const avg=u.scores.length?Math.round(u.scores.reduce((a,b)=>a+b)/u.scores.length):0;
   document.getElementById("profileScore").innerText=avg;
 
-  // show certificates & badges as history
   const certList=document.getElementById("certificatesList"); 
   certList.innerHTML=""; 
   u.certificates.forEach(c=>{
