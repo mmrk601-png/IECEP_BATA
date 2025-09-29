@@ -1,6 +1,6 @@
 body {
   font-family: 'Poppins', 'Arial Rounded MT Bold', sans-serif;
-  background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+  background: linear-gradient(135deg, #fdfcfb, #ddebf8);
   background-image:
     radial-gradient(circle, rgba(0,0,0,0.05) 2px, transparent 2px),
     radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px);
@@ -10,58 +10,39 @@ body {
   padding: 0;
 }
 
-.hidden { display: none; }
-
-h1 { margin-top: 20px; }
-h2, h3, h4 { margin: 10px 0; }
-
-#authPage, #homePage, #lessonPage, #profilePage, #certificatePage { padding: 20px; }
+.page { display: none; padding: 20px; }
+.page:not(.hidden) { display: block; }
 
 input {
   display: block;
   margin: 10px auto;
   padding: 10px;
-  font-size: 16px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  width: 250px;
-  background: #fef9e7;
+  width: 200px;
+  border-radius: 8px;
+  border: 1px solid #888;
 }
-
-.password-field { display: flex; justify-content: center; align-items: center; }
-.password-field input { width: 200px; margin: 0; }
-.password-field button { margin-left: 5px; padding: 10px; border-radius: 10px; cursor: pointer; }
 
 button {
   margin: 10px;
   padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 12px;
+  border-radius: 8px;
   border: none;
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
   cursor: pointer;
 }
 
-.switch span { color: blue; text-decoration: underline; cursor: pointer; }
+button:hover { opacity: 0.9; }
 
-.subjects { display: flex; flex-wrap: wrap; justify-content: center; margin: 20px; }
-.subject-btn { margin: 10px; padding: 15px 25px; font-size: 18px; border-radius: 12px; cursor: pointer; color: white; }
-.math { background-color: #e74c3c; }
-.science { background-color: #27ae60; }
+.hidden { display: none; }
 
-#certificatePage {
-  border: 2px solid black;
-  margin: 20px auto;
-  padding: 20px;
-  background: white;
-  display: inline-block;
+/* Quiz Buttons Feedback */
+button.correct {
+  background-color: green !important;
+  color: white;
 }
-
-#folkloreContainer {
-  margin-top: 20px;
-  background: #fff0b3;
-  padding: 15px;
-  border-radius: 10px;
+button.wrong {
+  background-color: red !important;
+  color: white;
 }
-
-#lessonContent { margin: 15px 0; text-align: left; max-width: 600px; margin-left:auto; margin-right:auto;}
-
