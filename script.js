@@ -114,9 +114,6 @@ function startQuiz(subject,lesson){
   quizContainer.innerHTML="";
   const questionEl=document.createElement("div");
   const choicesEl=document.createElement("div");
-  const nextBtn=document.createElement("button");
-  nextBtn.innerText="Next";
-  nextBtn.onclick=()=>{ current++; if(current<quizSet.length){showQuestion();} else{finishQuiz();} };
   quizContainer.appendChild(questionEl);
   quizContainer.appendChild(choicesEl);
   quizContainer.appendChild(nextBtn);
@@ -189,6 +186,7 @@ function openProfile(){
   const certList=document.getElementById("certificatesList"); certList.innerHTML=""; u.certificates.forEach(c=>{let li=document.createElement("li");li.innerText=c;certList.appendChild(li);});
   const badgesList=document.getElementById("badgesList"); badgesList.innerHTML=""; u.badges.forEach(b=>{let li=document.createElement("li");li.innerText=b;badgesList.appendChild(li);});
 }
+
 
 
 
