@@ -1,18 +1,41 @@
 let currentUser = null;
 let users = JSON.parse(localStorage.getItem("users")) || {};
 
-function showRegister(){ document.getElementById("loginForm").classList.add("hidden"); document.getElementById("registerForm").classList.remove("hidden"); }
-function showLogin(){ document.getElementById("registerForm").classList.add("hidden"); document.getElementById("loginForm").classList.remove("hidden"); }
-function togglePassword(){ const pwd=document.getElementById("loginPassword"); pwd.type=pwd.type==='password'?'text':'password'; }
+function showRegister(){ 
+  document.getElementById("loginForm").classList.add("hidden"); 
+  document.getElementById("registerForm").classList.remove("hidden"); 
+}
+
+function showLogin(){ 
+  document.getElementById("registerForm").classList.add("hidden"); 
+  document.getElementById("loginForm").classList.remove("hidden"); 
+}
+
+function togglePassword(){ 
+  const pwd=document.getElementById("loginPassword"); 
+  pwd.type=pwd.type==='password'?'text':'password'; 
+}
 
 function register(){
   const fullName=document.getElementById("regFullName").value;
   const username=document.getElementById("regUsername").value;
   const password=document.getElementById("regPassword").value;
-  if(users[username]){alert("Username exists!"); return;}
-  users[username]={fullName,password,lessonsCompleted:0,scores:[],certificates:[],badges:[]};
-  localStorage.setItem("users",JSON.stringify(users));
-  alert("Registration success!"); showLogin();
+  if(users[username]){
+    alert("Username exists!"); 
+    return;
+  }
+  users[username] = {
+    fullName,
+    password,
+    lessonsCompleted: 0,
+    scores: [],
+    certificates: [],
+    badges: [],
+    completions: {}   // tracking ng bawat lesson
+  };
+  localStorage.setItem("users", JSON.stringify(users));
+  alert("Registration success!"); 
+  showLogin();
 }
 
 function login(){
@@ -20,11 +43,17 @@ function login(){
   const password=document.getElementById("loginPassword").value;
   if(users[username] && users[username].password===password){
     currentUser=username;
-    if(document.getElementById("rememberMe").checked){localStorage.setItem("rememberedUser",username);}else{localStorage.removeItem("rememberedUser");}
+    if(document.getElementById("rememberMe").checked){
+      localStorage.setItem("rememberedUser",username);
+    } else {
+      localStorage.removeItem("rememberedUser");
+    }
     document.getElementById("authPage").classList.add("hidden");
     document.getElementById("homePage").classList.remove("hidden");
     document.getElementById("studentName").innerText=users[username].fullName;
-  }else{alert("Invalid credentials");}
+  } else {
+    alert("Invalid credentials");
+  }
 }
 
 function logout(){
@@ -122,59 +151,74 @@ function startQuiz(subject,lesson){
     questionEl.innerHTML=`<h4>Q${current+1}: ${quizSet[current].q}</h4>`;
     choicesEl.innerHTML="";
     quizSet[current].choices.forEach(choice=>{
-  const btn=document.createElement("button");
-  btn.innerText = choice;
-  btn.onclick = () => {
-    if(choice === quizSet[current].a){
-      btn.classList.add("correct");
-      score++;
-    } else {
-      btn.classList.add("wrong");
-    }
+      const btn=document.createElement("button");
+      btn.innerText = choice;
+      btn.onclick = () => {
+        if(choice === quizSet[current].a){
+          btn.classList.add("correct");
+          score++;
+        } else {
+          btn.classList.add("wrong");
+        }
 
-    //
-    Array.from(choicesEl.children).forEach(b => b.disabled = true);
+        // disable other buttons
+        Array.from(choicesEl.children).forEach(b => b.disabled = true);
 
-    // auto-next after 1 seconds
-    setTimeout(() => {
-      current++;
-      if(current < quizSet.length){
-        showQuestion();
-      } else {
-        finishQuiz();
-      }
-    }, 700);
-  };
-  choicesEl.appendChild(btn);
-});
+        // auto-next after 0.7s
+        setTimeout(() => {
+          current++;
+          if(current < quizSet.length){
+            showQuestion();
+          } else {
+            finishQuiz();
+          }
+        }, 700);
+      };
+      choicesEl.appendChild(btn);
+    });
   }
   showQuestion();
-function finishQuiz(){
-  alert(`You scored ${score} out of ${quizSet.length}`);
-  
-  // Add completion count for this lesson
-  if(!users[currentUser].completions[lesson]){
-    users[currentUser].completions[lesson] = 0;
-  }
-  users[currentUser].completions[lesson]++;
 
-  // Award badge based on completions
-  let badge = "";
-  switch(users[currentUser].completions[lesson]){
-    case 1: badge = "Bronze Star"; break;
-    case 2: badge = "Silver Star"; break;
-    case 3: badge = "Gold Star"; break;
-    default: badge = "Diamond Badge";
-  }
-  users[currentUser].badges.push(`${lesson}: ${badge}`);
+  function finishQuiz(){
+    alert(`You scored ${score} out of ${quizSet.length}`);
+    
+    // Track completions
+    if(!users[currentUser].completions[lesson]){
+      users[currentUser].completions[lesson] = 0;
+    }
+    users[currentUser].completions[lesson]++;
+    users[currentUser].lessonsCompleted++;
+    users[currentUser].scores.push(score);
 
-  // Show certificate
-  showCertificate(currentUser, lesson, badge);
- }
+    // Award badge
+    let badge = "";
+    switch(users[currentUser].completions[lesson]){
+      case 1: badge = "Bronze Star"; break;
+      case 2: badge = "Silver Star"; break;
+      case 3: badge = "Gold Star"; break;
+      default: badge = "Diamond Badge";
+    }
+    users[currentUser].badges.push(`${lesson}: ${badge}`);
+
+    // Save certificate record
+    users[currentUser].certificates.push(`${lesson} - ${badge}`);
+
+    // Save everything
+    localStorage.setItem("users", JSON.stringify(users));
+
+    // Show certificate immediately
+    showCertificate(currentUser, lesson, badge);
+  }
 }
 
 // Shuffle helper
-function shuffle(array){for(let i=array.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[array[i],array[j]]=[array[j],array[i]];} return array;}
+function shuffle(array){
+  for(let i=array.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [array[i],array[j]]=[array[j],array[i]];
+  }
+  return array;
+}
 
 // Certificate
 function showCertificate(user, lesson, badge){
@@ -194,14 +238,21 @@ function openProfile(){
   document.getElementById("profileLessons").innerText=u.lessonsCompleted;
   const avg=u.scores.length?Math.round(u.scores.reduce((a,b)=>a+b)/u.scores.length):0;
   document.getElementById("profileScore").innerText=avg;
-  const certList=document.getElementById("certificatesList"); certList.innerHTML=""; u.certificates.forEach(c=>{let li=document.createElement("li");li.innerText=c;certList.appendChild(li);});
-  const badgesList=document.getElementById("badgesList"); badgesList.innerHTML=""; u.badges.forEach(b=>{let li=document.createElement("li");li.innerText=b;badgesList.appendChild(li);});
+
+  // show certificates & badges as history
+  const certList=document.getElementById("certificatesList"); 
+  certList.innerHTML=""; 
+  u.certificates.forEach(c=>{
+    let li=document.createElement("li");
+    li.innerText=c;
+    certList.appendChild(li);
+  });
+
+  const badgesList=document.getElementById("badgesList"); 
+  badgesList.innerHTML=""; 
+  u.badges.forEach(b=>{
+    let li=document.createElement("li");
+    li.innerText=b;
+    badgesList.appendChild(li);
+  });
 }
-
-
-
-
-
-
-
-
