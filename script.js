@@ -142,7 +142,7 @@ function startQuiz(subject,lesson){
       } else {
         finishQuiz();
       }
-    }, 1000);
+    }, 700);
   };
   choicesEl.appendChild(btn);
 });
