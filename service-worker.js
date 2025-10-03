@@ -1,38 +1,49 @@
 const CACHE_NAME = "iecep-bata-cache-v1";
 const FILES_TO_CACHE = [
-  "/",
-  "/index.html",
-  "/style.css",
-  "/script.js",
-  "/manifest.json",
-  "/icon.png"  // add your logo here
+  "index.html",
+  "style.css",
+  "script.js",
+  "manifest.json",
+  "icon-192.png",
+  "icon-512.png"
 ];
 
-// Install - cache files
-self.addEventListener("install", event => {
+// Install event → preload all files into cache
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log("Pre-caching offline page and assets");
+      return cache.addAll(FILES_TO_CACHE);
+    })
   );
   self.skipWaiting();
 });
 
-// Activate - remove old caches
-self.addEventListener("activate", event => {
+// Activate event → cleanup old caches if may version update
+self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.map(key => {
-        if (key !== CACHE_NAME) return caches.delete(key);
-      }))
-    )
+    caches.keys().then((keyList) => {
+      return Promise.all(
+        keyList.map((key) => {
+          if (key !== CACHE_NAME) {
+            console.log("Removing old cache", key);
+            return caches.delete(key);
+          }
+        })
+      );
+    })
   );
   self.clients.claim();
 });
 
-// Fetch - serve cached files if offline
-self.addEventListener("fetch", event => {
+// Fetch event → serve from cache first, fallback to network
+self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request).catch(() => {
+        // Optional: return offline fallback page if gusto mo
+        return caches.match("index.html");
+      });
     })
   );
 });
