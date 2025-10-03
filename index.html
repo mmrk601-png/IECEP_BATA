@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>IECEP BATA</title>
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
 </head>
 <body>
 <div id="app">
@@ -77,11 +78,20 @@
     <h3 id="certName"></h3>
     <p>For successfully completing the quiz in</p>
     <h4 id="certLesson"></h4>
-    <p><strong>Badge:</strong> <span id="certBadge"></span></p>
     <button onclick="downloadCertificate()">Download Certificate</button>
     <button onclick="goHome()">Back to Home</button>
   </div>
 </div>
 <script src="script.js"></script>
+<script>
+  // for offline support
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(reg => console.log("Service Worker registered!", reg))
+        .catch(err => console.log("Service Worker failed:", err));
+    });
+  }
+</script>
 </body>
 </html>
