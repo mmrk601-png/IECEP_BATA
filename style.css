@@ -77,8 +77,7 @@ button.wrong {
 #lessonContent { margin: 15px 0; text-align: left; max-width: 600px; margin-left:auto; margin-right:auto;}
 /* 🌤 Extra vibrant kid-friendly background (clouds + stars + pastel glow) */
 body::before,
-body::after,
-body::backdrop {
+body::after {
   content: "";
   position: fixed;
   top: 0;
@@ -89,41 +88,49 @@ body::backdrop {
   z-index: -1;
 }
 
-/* 🌈 Floating colorful pastel circles (brighter now) */
+/* 🌈 Floating colorful pastel circles (brighter and visible) */
 body::before {
   background-image:
-    radial-gradient(circle at 15% 20%, rgba(255, 223, 186, 0.7) 15px, transparent 50px),
-    radial-gradient(circle at 85% 25%, rgba(186, 225, 255, 0.7) 20px, transparent 50px),
-    radial-gradient(circle at 25% 85%, rgba(255, 200, 221, 0.7) 18px, transparent 50px),
-    radial-gradient(circle at 80% 75%, rgba(200, 255, 200, 0.7) 22px, transparent 50px),
-    radial-gradient(circle at 45% 55%, rgba(255, 255, 200, 0.6) 30px, transparent 70px);
+    radial-gradient(circle at 15% 20%, rgba(255, 223, 186, 0.8) 15px, transparent 50px),
+    radial-gradient(circle at 85% 25%, rgba(186, 225, 255, 0.8) 20px, transparent 50px),
+    radial-gradient(circle at 25% 85%, rgba(255, 200, 221, 0.8) 18px, transparent 50px),
+    radial-gradient(circle at 80% 75%, rgba(200, 255, 200, 0.8) 22px, transparent 50px),
+    radial-gradient(circle at 45% 55%, rgba(255, 255, 200, 0.7) 30px, transparent 70px);
   background-repeat: no-repeat;
-  animation: floatShapes 40s linear infinite alternate;
-  opacity: 0.8;
+  animation: floatShapes 40s ease-in-out infinite alternate;
+  opacity: 1;
 }
 
-/* ☁️ Soft clouds floating across */
+/* ☁️ Soft cartoon-like clouds floating across */
 body::after {
   background-image:
-    url("https://upload.wikimedia.org/wikipedia/commons/2/2c/White-cloud-icon.png"),
-    url("https://upload.wikimedia.org/wikipedia/commons/2/2c/White-cloud-icon.png"),
-    url("https://upload.wikimedia.org/wikipedia/commons/2/2c/White-cloud-icon.png");
+    url("https://i.imgur.com/sXoQd2E.png"),
+    url("https://i.imgur.com/sXoQd2E.png"),
+    url("https://i.imgur.com/sXoQd2E.png");
   background-size: 200px 120px, 250px 150px, 180px 100px;
   background-repeat: no-repeat;
   background-position: -200px 10%, 110% 50%, -250px 80%;
-  opacity: 0.3;
+  opacity: 0.4;
   animation: moveClouds 90s linear infinite;
 }
 
-/* ✨ Twinkling stars */
-body::backdrop {
+/* ✨ Tiny twinkling stars layer */
+body::after::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-image:
     radial-gradient(white 1px, transparent 2px),
     radial-gradient(white 1px, transparent 2px),
     radial-gradient(white 1px, transparent 2px);
   background-size: 100px 100px, 150px 150px, 200px 200px;
-  opacity: 0.5;
-  animation: twinkle 4s ease-in-out infinite alternate;
+  opacity: 0.6;
+  animation: twinkle 5s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: -2;
 }
 
 /* 🌈 Floating shapes animation */
@@ -143,6 +150,6 @@ body::backdrop {
 /* ✨ Star twinkle */
 @keyframes twinkle {
   0% { opacity: 0.3; }
-  50% { opacity: 0.7; }
-  100% { opacity: 0.3; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.4; }
 }
