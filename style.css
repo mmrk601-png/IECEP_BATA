@@ -75,7 +75,7 @@ button.wrong {
 }
 
 #lessonContent { margin: 15px 0; text-align: left; max-width: 600px; margin-left:auto; margin-right:auto;}
-/* 🌤 Extra vibrant kid-friendly background (clouds + stars + pastel glow) */
+/* 🌤 Kid-friendly animated background (works 100% offline) */
 body::before,
 body::after {
   content: "";
@@ -88,34 +88,36 @@ body::after {
   z-index: -1;
 }
 
-/* 🌈 Floating colorful pastel circles (brighter and visible) */
+/* 🌈 Floating colorful pastel circles */
 body::before {
   background-image:
-    radial-gradient(circle at 15% 20%, rgba(255, 223, 186, 0.8) 15px, transparent 50px),
-    radial-gradient(circle at 85% 25%, rgba(186, 225, 255, 0.8) 20px, transparent 50px),
-    radial-gradient(circle at 25% 85%, rgba(255, 200, 221, 0.8) 18px, transparent 50px),
-    radial-gradient(circle at 80% 75%, rgba(200, 255, 200, 0.8) 22px, transparent 50px),
-    radial-gradient(circle at 45% 55%, rgba(255, 255, 200, 0.7) 30px, transparent 70px);
+    radial-gradient(circle at 15% 20%, rgba(255, 223, 186, 0.9) 15px, transparent 50px),
+    radial-gradient(circle at 85% 25%, rgba(186, 225, 255, 0.9) 20px, transparent 50px),
+    radial-gradient(circle at 25% 85%, rgba(255, 200, 221, 0.9) 18px, transparent 50px),
+    radial-gradient(circle at 80% 75%, rgba(200, 255, 200, 0.9) 22px, transparent 50px),
+    radial-gradient(circle at 45% 55%, rgba(255, 255, 200, 0.8) 30px, transparent 70px);
   background-repeat: no-repeat;
   animation: floatShapes 40s ease-in-out infinite alternate;
   opacity: 1;
 }
 
-/* ☁️ Soft cartoon clouds floating across (now working URL) */
+/* ☁️ Pure CSS clouds (no image needed!) */
 body::after {
-  background-image:
-    url("https://pngimg.com/uploads/cloud/cloud_PNG27.png"),
-    url("https://pngimg.com/uploads/cloud/cloud_PNG29.png"),
-    url("https://pngimg.com/uploads/cloud/cloud_PNG31.png");
-  background-size: 200px 120px, 250px 150px, 180px 100px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.8) 40px, transparent 60px),
+    radial-gradient(circle at 25% 33%, rgba(255, 255, 255, 0.9) 60px, transparent 80px),
+    radial-gradient(circle at 75% 60%, rgba(255, 255, 255, 0.8) 50px, transparent 70px),
+    radial-gradient(circle at 70% 63%, rgba(255, 255, 255, 0.9) 70px, transparent 90px),
+    radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.8) 40px, transparent 60px),
+    radial-gradient(circle at 53% 83%, rgba(255, 255, 255, 0.9) 60px, transparent 80px);
+  background-size: 800px 800px;
   background-repeat: no-repeat;
-  background-position: -200px 10%, 110% 50%, -250px 80%;
-  opacity: 0.4;
-  animation: moveClouds 90s linear infinite;
+  animation: moveClouds 120s linear infinite;
+  opacity: 0.6;
 }
 
-/* ✨ Tiny twinkling stars layer */
-body::after::after {
+/* ✨ More visible twinkling stars (pure CSS sparkles) */
+body::before::after {
   content: "";
   position: fixed;
   top: 0;
@@ -123,12 +125,13 @@ body::after::after {
   width: 100%;
   height: 100%;
   background-image:
-    radial-gradient(white 1px, transparent 2px),
-    radial-gradient(white 1px, transparent 2px),
-    radial-gradient(white 1px, transparent 2px);
-  background-size: 100px 100px, 150px 150px, 200px 200px;
-  opacity: 0.6;
-  animation: twinkle 5s ease-in-out infinite alternate;
+    radial-gradient(white 2px, transparent 2px),
+    radial-gradient(white 3px, transparent 3px),
+    radial-gradient(white 2px, transparent 2px),
+    radial-gradient(white 4px, transparent 4px);
+  background-size: 80px 80px, 120px 120px, 160px 160px, 200px 200px;
+  animation: twinkle 3s ease-in-out infinite alternate;
+  opacity: 0.8;
   pointer-events: none;
   z-index: -2;
 }
@@ -140,16 +143,18 @@ body::after::after {
   100% { transform: translateY(-20px) translateX(-10px); }
 }
 
-/* ☁️ Cloud movement */
+/* ☁️ Slow drifting clouds */
 @keyframes moveClouds {
-  0% { background-position: -200px 10%, 110% 50%, -250px 80%; }
-  50% { background-position: 50px 15%, 60% 45%, 0px 85%; }
-  100% { background-position: 110% 10%, -200px 50%, 110% 75%; }
+  0% { background-position: -200px 10%; }
+  50% { background-position: 200px 50%; }
+  100% { background-position: -200px 80%; }
 }
 
-/* ✨ Star twinkle */
+/* ✨ Brighter star twinkle */
 @keyframes twinkle {
-  0% { opacity: 0.3; }
-  50% { opacity: 0.9; }
-  100% { opacity: 0.4; }
+  0% { opacity: 0.2; filter: drop-shadow(0 0 5px white); }
+  50% { opacity: 1; filter: drop-shadow(0 0 15px white); }
+  100% { opacity: 0.3; filter: drop-shadow(0 0 5px white); }
 }
+
+
