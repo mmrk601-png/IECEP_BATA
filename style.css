@@ -112,7 +112,7 @@ body::after {
     radial-gradient(circle at 53% 83%, rgba(255, 255, 255, 0.9) 60px, transparent 80px);
   background-size: 800px 800px;
   background-repeat: no-repeat;
-  animation: moveClouds 60s linear infinite;
+  animation: moveClouds 120s linear infinite;
   opacity: 0.6;
 }
 
@@ -156,6 +156,7 @@ body::before::after {
   50% { opacity: 1; filter: drop-shadow(0 0 15px white); }
   100% { opacity: 0.9; filter: drop-shadow(0 0 5px white); }
 }
+
 
 
 
