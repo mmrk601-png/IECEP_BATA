@@ -101,12 +101,12 @@ body::before {
   opacity: 1;
 }
 
-/* ☁️ Soft cartoon-like clouds floating across */
+/* ☁️ Soft cartoon clouds floating across (now working URL) */
 body::after {
   background-image:
-    url("https://i.imgur.com/sXoQd2E.png"),
-    url("https://i.imgur.com/sXoQd2E.png"),
-    url("https://i.imgur.com/sXoQd2E.png");
+    url("https://pngimg.com/uploads/cloud/cloud_PNG27.png"),
+    url("https://pngimg.com/uploads/cloud/cloud_PNG29.png"),
+    url("https://pngimg.com/uploads/cloud/cloud_PNG31.png");
   background-size: 200px 120px, 250px 150px, 180px 100px;
   background-repeat: no-repeat;
   background-position: -200px 10%, 110% 50%, -250px 80%;
