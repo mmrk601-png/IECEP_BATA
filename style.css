@@ -97,7 +97,7 @@ body::before {
     radial-gradient(circle at 80% 75%, rgba(200, 255, 200, 0.9) 22px, transparent 50px),
     radial-gradient(circle at 45% 55%, rgba(255, 255, 200, 0.8) 30px, transparent 70px);
   background-repeat: no-repeat;
-  animation: floatShapes 40s ease-in-out infinite alternate;
+  animation: floatShapes 30s ease-in-out infinite alternate;
   opacity: 1;
 }
 
@@ -112,7 +112,7 @@ body::after {
     radial-gradient(circle at 53% 83%, rgba(255, 255, 255, 0.9) 60px, transparent 80px);
   background-size: 800px 800px;
   background-repeat: no-repeat;
-  animation: moveClouds 120s linear infinite;
+  animation: moveClouds 60s linear infinite;
   opacity: 0.6;
 }
 
@@ -131,7 +131,7 @@ body::before::after {
     radial-gradient(white 4px, transparent 4px);
   background-size: 80px 80px, 120px 120px, 160px 160px, 200px 200px;
   animation: twinkle 3s ease-in-out infinite alternate;
-  opacity: 0.8;
+  opacity: 1;
   pointer-events: none;
   z-index: -2;
 }
@@ -152,9 +152,10 @@ body::before::after {
 
 /* ✨ Brighter star twinkle */
 @keyframes twinkle {
-  0% { opacity: 0.2; filter: drop-shadow(0 0 5px white); }
+  0% { opacity: 0.9; filter: drop-shadow(0 0 5px white); }
   50% { opacity: 1; filter: drop-shadow(0 0 15px white); }
-  100% { opacity: 0.3; filter: drop-shadow(0 0 5px white); }
+  100% { opacity: 0.9; filter: drop-shadow(0 0 5px white); }
 }
+
 
 
